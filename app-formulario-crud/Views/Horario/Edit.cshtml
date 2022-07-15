@@ -1,0 +1,59 @@
+﻿@model app_formulario_crud.Models.Horario
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Horario</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="DiaDaSemana" class="control-label"></label>
+                <input asp-for="DiaDaSemana" class="form-control" />
+                <span asp-validation-for="DiaDaSemana" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HoraInicio" class="control-label"></label>
+                <input asp-for="HoraInicio" class="form-control" />
+                <span asp-validation-for="HoraInicio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HoraFim" class="control-label"></label>
+                <input asp-for="HoraFim" class="form-control" />
+                <span asp-validation-for="HoraFim" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TempoDeDescanso" class="control-label"></label>
+                <input asp-for="TempoDeDescanso" class="form-control" />
+                <span asp-validation-for="TempoDeDescanso" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CargaHoraria" class="control-label"></label>
+                <input asp-for="CargaHoraria" class="form-control" />
+                <span asp-validation-for="CargaHoraria" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CargaHorariaSemanal" class="control-label"></label>
+                <input asp-for="CargaHorariaSemanal" class="form-control" />
+                <span asp-validation-for="CargaHorariaSemanal" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

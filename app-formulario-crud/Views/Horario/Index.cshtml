@@ -4,62 +4,61 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Horários</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" type="button" class="btn btn-primary">Cadastrar</a>
 </p>
-<table class="table">
+<table class="table table-striped">
     <thead>
         <tr>
-            <th>
-                <label>Dia da Semana</label>
-            </th>
-            <th>
-                <label>Hora Início</label>
-            </th>
-            <th>
-                <label>Hora Fim</label>
-            </th>
-            <th>
-                <label>Tempo de Descanso (h)</label>
-            </th>
-            <th>
-                <label>Carga Horária (h)</label>
-            </th>
-            <th>
-                <label>Carga Horária Semanal</label>
-            </th>
-            <th></th>
+            <th>Dia da Semana</th>
+            <th>Hora Início</th>
+            <th>Hora Fim</th>
+            <th>Tempo de Descanso (h)</th>
+            <th>Carga Horária (h)</th>
+            <th>Ações</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DiaDaSemana)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HoraInicio)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HoraFim)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TempoDeDescanso)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CargaHoraria)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" type="button" class="btn btn-primary">Editar</a><br />
+                    <a asp-action="Details" asp-route-id="@item.Id" type="button" class="btn btn-primary">Detalhes</a><br />
+                    <a asp-action="Delete" asp-route-id="@item.Id" type="button" class="btn btn-danger">Apagar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<table>
+    <thead>
+        <tr>
+            <th>Carga Horária Semanal</th>
+        </tr>
+    </thead>
+    <tbody>
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.DiaDaSemana)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.HoraInicio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.HoraFim)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TempoDeDescanso)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CargaHoraria)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CargaHorariaSemanal)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                @*@Html.DisplayFor(Model.Sum<Horario>(x => ))   //TODO: funcao somaCargaHoraria*@
             </td>
         </tr>
-}
     </tbody>
 </table>

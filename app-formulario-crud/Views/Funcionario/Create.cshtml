@@ -4,14 +4,41 @@
     ViewData["Title"] = "Create";
 }
 <script>
-    function mascaraCpf() {
-        var cpf = document.getElementById('cpf')
-        if (cpf.value.lenght == 3 || cpf.value.lenght == 7) {
-            cpf.value += "."
+
+    function mascaraCpf(i){
+        var v = i.value;
+
+        if (isNaN(v[v.length - 1])) { // impede entrar outro caractere que não seja número
+            i.value = v.substring(0, v.length - 1);
+            return;
         }
-        if (cpf.value.lenght == 11) {
-            cpf.value += "-"
+        i.setAttribute("maxlength", "14");
+        if (v.length == 3 || v.length == 7) i.value += ".";
+        if (v.length == 11) i.value += "-";
+    }
+
+    function mascaraTel(tel) {
+        tel.addEventListener('keypress', (e) => mascaraTelefone(e.target.value)) // Dispara quando digitado no campo
+        tel.addEventListener('change', (e) => mascaraTelefone(e.target.value)) // Dispara quando autocompletado o campo
+
+        const mascaraTelefone = (valor) => {
+            valor = valor.replace(/\D/g, "")
+            valor = valor.replace(/^(\d{2})(\d)/g, "($1) $2")
+            valor = valor.replace(/(\d)(\d{4})$/, "$1-$2")
+            tel.value = valor // Insere o(s) valor(es) no campo
         }
+    }
+
+    function mascaraCep(i) {
+        var v = i.value;
+
+        if (isNaN(v[v.length - 1])) { // impede entrar outro caractere que não seja número
+            i.value = v.substring(0, v.length - 1);
+            return;
+        }
+        i.setAttribute("maxlength", "10");
+        if (v.length == 2) i.value += ".";
+        if (v.length == 6) i.value += "-";
     }
 
 </script>
@@ -19,101 +46,111 @@
 
 <h4>Funcionario</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        
-        <form asp-action="Create">
-            <div class="form-row">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="Nome" class="control-label">Nome</label>
-                    <input asp-for="Nome" class="form-control" />
-                    <span asp-validation-for="Nome" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="CPF" class="control-label">CPF</label>
-                    <input asp-for="CPF" class="form-control" id="cpf" maxlength="14" onclick="(mascaraCpf())" />
-                    <span asp-validation-for="CPF" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Email" class="control-label">E-mail</label>
-                    <input asp-for="Email" class="form-control" placeholder="exemplo@email.com.br" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Telefone" class="control-label">Telefone</label>
-                    <input asp-for="Telefone" class="form-control" />
-                    <span asp-validation-for="Telefone" class="text-danger"></span>
-                </div>
-                <div class="form-group form-check">
-                    <label class="form-check-label">Habilitação</label>
-                    <select id="habilitacao-select" class="form-control">
-                        <option selected>Selecione...</option>
-                        <option>Sim</option>
-                        <option>Não</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Categoria" class="control-label">Categoria</label>
-                    <input asp-for="Categoria" class="form-control" />
-                    <span asp-validation-for="Categoria" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="LinguaEstrangeira" class="control-label">Língua Estrangeira</label>
-                    <input asp-for="LinguaEstrangeira" class="form-control" />
-                    <span asp-validation-for="LinguaEstrangeira" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Estado" class="control-label">Estado</label>
-                    <input asp-for="Estado" class="form-control" />
-                    <span asp-validation-for="Estado" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Cidade" class="control-label">Cidade</label>
-                    <input asp-for="Cidade" class="form-control" />
-                    <span asp-validation-for="Cidade" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="CEP" class="control-label">CEP</label>
-                    <input asp-for="CEP" class="form-control" />
-                    <span asp-validation-for="CEP" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Logradouro" class="control-label">Logradouro</label>
-                    <input asp-for="Logradouro" class="form-control" />
-                    <span asp-validation-for="Logradouro" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Numero" class="control-label">Número</label>
-                    <input asp-for="Numero" class="form-control" />
-                    <span asp-validation-for="Numero" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Complemento" class="control-label">Complemento</label>
-                    <input asp-for="Complemento" class="form-control" />
-                    <span asp-validation-for="Complemento" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Cargo" class="control-label">Cargo</label>
-                    <input asp-for="Cargo" class="form-control" />
-                    <span asp-validation-for="Cargo" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="SalarioProposto" class="control-label">Salário Proposto</label>
-                    <input asp-for="SalarioProposto" class="form-control" />
-                    <span asp-validation-for="SalarioProposto" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-success">Salvar</button>
-                </div>
-                <div>
-                    <a asp-action="Index" type="button" class="btn btn-info">Voltar</a>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
 
+<form asp-action="Create">
+    <div class="form-group">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Nome" class="control-label">Nome</label>
+            <input asp-for="Nome" class="form-control" />
+            <span asp-validation-for="Nome" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="CPF" class="control-label">CPF</label>
+        <input asp-for="CPF" class="form-control" type="text" maxlength="11" oninput="mascaraCpf(this)" placeholder="000.000.000-00" />
+        <span asp-validation-for="CPF" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Email" class="control-label">E-mail</label>
+        <input asp-for="Email" class="form-control" placeholder="nome@exemplo.com" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Telefone" class="control-label">Telefone</label>
+        <input asp-for="Telefone" class="form-control" type="tel" id="tel" name="tel"
+               maxlength="15" pattern="\(\d{2}\)\s*\d{5}-\d{4}" required oninput="mascaraTel(this)"
+               placeholder="(xx) xxxxx-xxxx" />
+        <span asp-validation-for="Telefone" class="text-danger"></span>
+    </div>
+    <div class="row ml-2">
+        <div class="form-group">
+            <label for="FormControlHabilitacao" class="form-check-label">Habilitação</label>
+            <select id="habilitacao-select" class="form-control mt-2">
+                <option selected>Selecione...</option>
+                <option>Sim</option>
+                <option>Não</option>
+            </select>
+            <span asp-validation-for="Habilitacao" class="text-danger"></span>
+        </div>
+        <div class="form-group ml-3">
+            <label asp-for="Categoria" class="control-label">Categoria</label>
+            <input asp-for="Categoria" class="form-control" />
+            <span asp-validation-for="Categoria" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="LinguaEstrangeira" class="control-label">Língua Estrangeira</label>
+        <select id="lingua-estrangeira-select" class="form-control mt-2">
+            <option selected>Selecione...</option>
+            <option>Inglês</option>
+            <option>Espanhol</option>
+            <option>Francês</option>
+        </select>
+        <span asp-validation-for="LinguaEstrangeira" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Estado" class="control-label">Estado</label>
+        <input asp-for="Estado" class="form-control" />
+        <span asp-validation-for="Estado" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Cidade" class="control-label">Cidade</label>
+        <input asp-for="Cidade" class="form-control" />
+        <span asp-validation-for="Cidade" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="CEP" class="control-label">CEP</label>
+        <input asp-for="CEP" class="form-control"  type="text" maxlength="10" oninput="mascaraCep(this)" placeholder="00.000-000" />
+        <span asp-validation-for="CEP" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Logradouro" class="control-label">Logradouro</label>
+        <input asp-for="Logradouro" class="form-control" />
+        <span asp-validation-for="Logradouro" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Numero" class="control-label">Número</label>
+        <input asp-for="Numero" class="form-control" />
+        <span asp-validation-for="Numero" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Complemento" class="control-label">Complemento</label>
+        <input asp-for="Complemento" class="form-control" />
+        <span asp-validation-for="Complemento" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Cargo" class="control-label">Cargo</label>
+        <select id="cargo-select" class="form-control mt-2">
+            <option selected>Selecione...</option>
+            <option>Scrum Master</option>
+            <option>Product Owner</option>
+            <option>Desenvolvedor Front End</option>
+            <option>Desenvolvedor Back End</option>
+            <option>Desenvolvedor Full Stack</option>
+        </select>
+        <span asp-validation-for="Cargo" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="SalarioProposto" class="control-label">Salário Proposto</label>
+        <input asp-for="SalarioProposto" type="number" class="form-control" placeholder="R$: 00.000,00" />
+        <span asp-validation-for="SalarioProposto" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-success">Salvar</button>
+        <a asp-action="Index" type="button" class="btn btn-info ml-3">Voltar</a>
+    </div>
+</form>
 
 
 @section Scripts {
